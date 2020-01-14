@@ -535,4 +535,31 @@ class PdoGsb
         return $lesVisiteurs;
     }
     
+    
+    /**
+     * retourne le visiteur aillant comme id le parametre
+     * 
+     * @param String $id
+     */
+    public function getVisiteur($id){
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'SELECT visiteur.* FROM visiteur '
+            . 'WHERE visiteur.id = :id'
+            );
+        $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $leVisiteur = null;
+        while ($laLigne = $requetePrepare->fetch()) {
+            $idVisiteur = $laLigne['id'];
+            $nomVisiteur = $laLigne['nom'];
+            $prenomVisiteur = $laLigne['prenom'];
+            $leVisiteur = array(
+                'id' => $idVisiteur,
+                'nom' => $nomVisiteur,
+                'prenom' => $prenomVisiteur
+            );
+        }
+        return $leVisiteur;
+    }
+    
 }

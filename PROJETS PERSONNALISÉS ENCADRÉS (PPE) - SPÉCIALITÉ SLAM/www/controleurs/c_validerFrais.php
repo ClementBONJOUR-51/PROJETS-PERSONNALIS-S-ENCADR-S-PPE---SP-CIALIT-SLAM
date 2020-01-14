@@ -16,10 +16,13 @@ case 'selectionnerVisiteur':
     include 'vues/v_listeVisiteur.php';
     break;
 case 'selectionnerMois':
-    $lesMois = $pdo->getLesMoisDisponibles($VisiteurSelectionner);
-    $lesClesMois = array_keys($lesMois);
-    $moisASelectionner = $lesClesMois[0];
-    include 'vues/v_listeMois.php';
+    $idVisiteurChoisi = filter_input(INPUT_POST, 'lstVisiteur', FILTER_SANITIZE_STRING);
+    var_dump($idVisiteurChoisi);
+    $lesVisiteurs = $pdo->getVisiteurs();
+    $leVisiteur = $pdo->getVisiteur($idVisiteurChoisi);
+    var_dump($leVisiteur);
+    $VisiteurSelectionner = $leVisiteur;
+    include 'vues/v_listeVisiteur.php';
     break;
 }
 ?>

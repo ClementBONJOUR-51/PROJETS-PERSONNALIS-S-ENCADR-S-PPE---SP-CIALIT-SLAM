@@ -8,7 +8,7 @@
         <h3>choisir le visiteur et le mois: </h3>
     </div>
     <div class="col-md-4">
-        <form action="index.php?uc=etatFrais&action=voirEtatFrais" 
+        <form action="index.php?uc=validerFrais&action=selectionnerMois" 
               method="post" role="form">
             <div class="form-group">
                 <label for="lstVisiteur" accesskey="n">Visiteur : </label>
