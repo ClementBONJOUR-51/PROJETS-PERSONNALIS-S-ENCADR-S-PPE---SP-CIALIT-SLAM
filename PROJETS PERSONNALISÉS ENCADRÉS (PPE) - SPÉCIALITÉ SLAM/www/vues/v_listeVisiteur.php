@@ -15,12 +15,6 @@
                 <select id="lstVisiteur" name="lstVisiteur" class="form-control">
                 </select>
             </div>
-            <div class="form-group">
-                <label for="lstMois" accesskey="n">Mois : </label>
-                <select id="lstMois" name="lstMois" class="form-control">
-                </select>
-            </div>
-            
             <input id="ok" type="submit" value="Valider" class="btn btn-success" 
                    role="button">
             <input id="annuler" type="reset" value="Effacer" class="btn btn-danger" 
