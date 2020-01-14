@@ -14,5 +14,14 @@ CREATE TABLE `gsb_frais`.`comptable` (
 INSERT INTO `comptable` (`id`, `nom`, `prenom`, `login`, `mdp`) VALUES (NULL, 'BONJOUR', 'Clément', 'bonj0002', '123');
 
 
+===================================================
+
+erreur commit :
+
+ajout table COMPTABLE
++
+connection au session comptable + changement accueil et entete suivant visiteur ou comptable
+
+MEME COMMIT/PUSH
 
 ===================================================
