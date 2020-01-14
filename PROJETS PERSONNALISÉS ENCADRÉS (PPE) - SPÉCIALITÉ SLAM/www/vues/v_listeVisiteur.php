@@ -13,6 +13,24 @@
             <div class="form-group">
                 <label for="lstVisiteur" accesskey="n">Visiteur : </label>
                 <select id="lstVisiteur" name="lstVisiteur" class="form-control">
+                   	<?php
+                    foreach ($lesVisiteurs as $unVisiteur) {
+                        $idVisiteur = $unVisiteur['id'];
+                        $nomVisiteur = $unVisiteur['nom'];
+                        $prenomVisiteur = $unVisiteur['prenom'];
+                        if ($unVisiteur == $VisiteurSelectionner) {
+                            ?>
+                            <option selected value="<?php echo $idVisiteur ?>">
+                                <?php echo $nomVisiteur . ' ' . $prenomVisiteur ?> </option>
+                            <?php
+                        } else {
+                            ?>
+                            <option value="<?php echo $idVisiteur ?>">
+                                <?php echo $nomVisiteur . ' ' . $prenomVisiteur ?> </option>
+                            <?php
+                        }
+                    }
+                    ?>  
                 </select>
             </div>
             <input id="ok" type="submit" value="Valider" class="btn btn-success" 

@@ -10,9 +10,9 @@ $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 switch ($action) {
 case 'selectionnerVisiteur':
     $lesVisiteurs = $pdo->getVisiteurs(); // je prend la liste de tout les visiteurs existant
-    console.log($lesVisiteurs);
-    $lesClesVisiteur = array_keys($lesVisiteurs);
-    $VisiteurSelectionner = $lesClesVisiteur[0]; //selection par defaut
+    //var_dump($lesVisiteurs);
+    //var_dump($lesVisiteurs[0]['id']);
+    $VisiteurSelectionner = $lesVisiteurs[0]; //selection par defaut
     include 'vues/v_listeVisiteur.php';
     break;
 case 'selectionnerMois':
