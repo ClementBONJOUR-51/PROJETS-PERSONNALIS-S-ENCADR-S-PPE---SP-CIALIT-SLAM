@@ -24,8 +24,10 @@ case 'resultatFicheFrais':
     $lesVisiteurs = $pdo->getVisiteurs();
     $leVisiteur = $pdo->getVisiteur($idVisiteurChoisi);
     $lesMois = $pdo->getLesMoisDisponibles($idVisiteurChoisi);
-    //var_dump($leMois);
-    //var_dump($leVisiteur);
+    var_dump($leMois);
+    var_dump($idVisiteurChoisi);
+    var_dump($lesMois);
+    var_dump($leVisiteur['id']);
     $visiteurSelectionner = $leVisiteur;
     $moisSelectionner = $leMois;
     include 'vues/v_listeVisiteur.php';
