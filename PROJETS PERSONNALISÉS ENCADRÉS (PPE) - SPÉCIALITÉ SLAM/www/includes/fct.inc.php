@@ -33,11 +33,12 @@ function estConnecte()
  *
  * @return null
  */
-function connecter($idVisiteur, $nom, $prenom)
+function connecter($idVisiteur, $nom, $prenom, $comptableBool)
 {
     $_SESSION['idVisiteur'] = $idVisiteur;
     $_SESSION['nom'] = $nom;
     $_SESSION['prenom'] = $prenom;
+    $_SESSION['comptableBool'] = $comptableBool; // ajout comptableBool qui va nous permettre de voir si on est sur un session visiteur ou comptable
 }
 
 /**

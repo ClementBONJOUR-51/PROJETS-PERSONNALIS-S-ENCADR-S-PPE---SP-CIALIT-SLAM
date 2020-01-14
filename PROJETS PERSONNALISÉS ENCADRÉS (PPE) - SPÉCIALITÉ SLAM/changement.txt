@@ -1,0 +1,18 @@
+
+
+CREATION TABLE COMPTABLE : 
+
+CREATE TABLE `gsb_frais`.`comptable` ( 
+	`id` INT NOT NULL AUTO_INCREMENT , 
+	`nom` CHAR(30) NULL , 
+	`prenom` CHAR(30) NULL , 
+	`login` CHAR(20) NULL , 
+	`mdp` CHAR(20) NULL , 
+	PRIMARY KEY (`id`)
+) ENGINE = MyISAM;
+
+INSERT INTO `comptable` (`id`, `nom`, `prenom`, `login`, `mdp`) VALUES (NULL, 'BONJOUR', 'Clément', 'bonj0002', '123');
+
+
+
+===================================================

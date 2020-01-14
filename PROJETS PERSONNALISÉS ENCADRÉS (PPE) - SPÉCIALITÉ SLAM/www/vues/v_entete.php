@@ -49,6 +49,9 @@
                                     Accueil
                                 </a>
                             </li>
+                            
+                            <?php if(!$_SESSION['comptableBool']){?>
+                            
                             <li <?php if ($uc == 'gererFrais') { ?>class="active"<?php } ?>>
                                 <a href="index.php?uc=gererFrais&action=saisirFrais">
                                     <span class="glyphicon glyphicon-pencil"></span>
@@ -61,6 +64,24 @@
                                     Afficher mes fiches de frais
                                 </a>
                             </li>
+                            <?php }else{ ?>
+                            
+                            <li <?php if ($uc == 'validerFrais') { ?>class="active"<?php } ?>>
+                                <a href="index.php?uc=validerFrais&action=validerFrais">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                    Valider les fiches de frais
+                                </a>
+                            </li>
+                            <li <?php if ($uc == 'suivreFrais') { ?>class="active"<?php } ?>>
+                                <a href="index.php?uc=suivreFrais&action=suivreFrais">
+                                    <span class="glyphicon glyphicon-list-alt"></span>
+                                    Suivre le payement des fiches de frais
+                                </a>
+                            </li>
+                            
+                            <?php } ?>
+                            
+                            
                             <li 
                             <?php if ($uc == 'deconnexion') { ?>class="active"<?php } ?>>
                                 <a href="index.php?uc=deconnexion&action=demandeDeconnexion">
