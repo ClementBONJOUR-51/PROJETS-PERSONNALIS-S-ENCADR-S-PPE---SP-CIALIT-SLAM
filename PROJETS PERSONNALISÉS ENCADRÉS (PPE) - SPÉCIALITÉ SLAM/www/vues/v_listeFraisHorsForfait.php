@@ -48,6 +48,7 @@
         </table>
     </div>
 </div>
+<?php if(!$_SESSION['comptableBool']){?>
 <div class="row">
     <h3>Nouvel élément hors forfait</h3>
     <div class="col-md-4">
@@ -76,3 +77,4 @@
         </form>
     </div>
 </div>
+<?php } ?>

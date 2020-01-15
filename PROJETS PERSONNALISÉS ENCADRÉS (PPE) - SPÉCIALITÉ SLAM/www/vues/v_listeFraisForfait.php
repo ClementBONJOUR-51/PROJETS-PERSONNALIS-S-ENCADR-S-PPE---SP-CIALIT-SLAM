@@ -15,14 +15,21 @@
  */
 ?>
 <div class="row">    
-    <h2>Renseigner ma fiche de frais du mois 
-        <?php echo $numMois . '-' . $numAnnee ?>
+    <h2>
+    <?php if(!$_SESSION['comptableBool']){?>Renseigner ma fiche de frais du mois <?php }?>
+    <?php echo $numMois . '-' . $numAnnee ?>
     </h2>
     <h3>Eléments forfaitisés</h3>
     <div class="col-md-4">
+    <?php if(!$_SESSION['comptableBool']){ ?>
         <form method="post" 
               action="index.php?uc=gererFrais&action=validerMajFraisForfait" 
               role="form">
+    <?php }else{?>
+    	<form method="post" 
+              action="index.php?uc=validerFrais&action=corrigerFraisForfait" 
+              role="form">
+    <?php }?>
             <fieldset>       
                 <?php
                 foreach ($lesFraisForfait as $unFrais) {
@@ -37,10 +44,12 @@
                                value="<?php echo $quantite ?>" 
                                class="form-control">
                     </div>
-                    <?php
-                }
-                ?>
+                <?php } ?>
+                <?php if(!$_SESSION['comptableBool']){?>
                 <button class="btn btn-success" type="submit">Ajouter</button>
+                <?php }else{?>
+                <button class="btn btn-success" type="submit">Corriger</button>
+                <?php }?>
                 <button class="btn btn-danger" type="reset">Effacer</button>
             </fieldset>
         </form>
