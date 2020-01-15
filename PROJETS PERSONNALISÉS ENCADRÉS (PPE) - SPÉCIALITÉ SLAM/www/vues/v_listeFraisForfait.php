@@ -46,7 +46,7 @@
                     </div>
                     
                 <?php } ?>
-                <div class="form-group" style="visibility: hidden;"> <!-- idVisiteur et mois qu'on réenvoi -->
+                <div class="form-group" style="display: none;"> <!-- idVisiteur et mois qu'on réenvoi -->
                         <input type="text" id="leVisiteur" 
                                name="leVisiteur"
                                value="<?php echo $idVisiteurChoisi ?>">
@@ -58,7 +58,8 @@
                 <?php if(!$_SESSION['comptableBool']){?>
                 <button class="btn btn-success" type="submit">Ajouter</button>
                 <?php }else{?>
-                <button class="btn btn-success" type="submit">Corriger</button>
+                <button class="btn btn-success" type="submit"
+                 onclick="alert('Les informations de frais ont bien Ã©tÃ© corrigÃ©es');">Corriger</button>
                 <?php }?>
                 <button class="btn btn-danger" type="reset">Effacer</button>
             </fieldset>
