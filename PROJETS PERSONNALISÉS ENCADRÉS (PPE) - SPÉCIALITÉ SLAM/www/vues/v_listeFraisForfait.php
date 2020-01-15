@@ -44,7 +44,17 @@
                                value="<?php echo $quantite ?>" 
                                class="form-control">
                     </div>
+                    
                 <?php } ?>
+                <div class="form-group" style="visibility: hidden;"> <!-- idVisiteur et mois qu'on réenvoi -->
+                        <input type="text" id="leVisiteur" 
+                               name="leVisiteur"
+                               value="<?php echo $idVisiteurChoisi ?>">
+                        <input type="text" id="leMois" 
+                               name="leMois"
+                               value="<?php echo $leMois ?>">
+                </div>    
+                               
                 <?php if(!$_SESSION['comptableBool']){?>
                 <button class="btn btn-success" type="submit">Ajouter</button>
                 <?php }else{?>

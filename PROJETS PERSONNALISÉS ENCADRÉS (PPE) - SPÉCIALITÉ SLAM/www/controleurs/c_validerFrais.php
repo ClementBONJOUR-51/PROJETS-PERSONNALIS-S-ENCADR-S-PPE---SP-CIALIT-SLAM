@@ -44,14 +44,34 @@ case 'resultatFicheFrais':
     include 'vues/v_listeFraisHorsForfait.php';
     break;
 case 'corrigerFraisForfait':
-    $idVisiteurChoisi = filter_input(INPUT_POST, 'lstVisiteur', FILTER_SANITIZE_STRING); //récuperation des réponse formulaire
-    $leMois = filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING);
+    // récuperation de l'id,mois,frais du formulaire reçu et execution de le requête
+    $idVisiteurChoisi = filter_input(INPUT_POST, 'leVisiteur');
+    $leMois = filter_input(INPUT_POST, 'leMois', FILTER_SANITIZE_STRING);
     $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
     if (lesQteFraisValides($lesFrais)) {
-        var_dump($idVisiteurChoisi);
+        /*var_dump($leVisiteur);
         var_dump($leMois);
-        var_dump($lesFrais);
-        $debug = $pdo->majFraisForfait($idVisiteurChoisi, $leMois, $lesFrais);
+        var_dump($lesFrais);*/
+        $pdo->majFraisForfait($idVisiteurChoisi, $leMois, $lesFrais);
+        //réaffichage page defaut
+        $lesVisiteurs = $pdo->getVisiteurs();
+        $leVisiteur = $pdo->getVisiteur($idVisiteurChoisi);
+        $lesMois = $pdo->getLesMoisDisponibles($idVisiteurChoisi);
+        $visiteurSelectionner = $leVisiteur;
+        $moisSelectionner = $leMois;
+        include 'vues/v_listeVisiteur.php';
+        $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteurChoisi, $leMois);
+        $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteurChoisi, $leMois);
+        $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteurChoisi, $leMois);
+        $numAnnee = substr($leMois, 0, 4);
+        $numMois = substr($leMois, 4, 2);
+        $libEtat = $lesInfosFicheFrais['libEtat'];
+        $montantValide = $lesInfosFicheFrais['montantValide'];
+        $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
+        $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
+        include 'vues/v_listeFraisForfait.php';
+        include 'vues/v_listeFraisHorsForfait.php';
+    
     } else {
         ajouterErreur('Les valeurs des frais doivent Ãªtre numÃ©riques');
         include 'vues/v_erreurs.php';
