@@ -257,12 +257,11 @@ class PdoGsb
     public function majFraisHorsForfait($idFraisHorsForfait, $lesFrais)
     {
         
-
             $requetePrepare = PdoGSB::$monPdo->prepare(
                 'UPDATE lignefraishorsforfait '
                 . 'SET lignefraishorsforfait.libelle = :libelle '
-                . 'SET lignefraishorsforfait.date = :date '
-                . 'SET lignefraishorsforfait.montant = :montant '
+                . ",lignefraishorsforfait.date = format(:date,'jj/mm/yyyy')"
+                . ',lignefraishorsforfait.montant = :montant '
                 . 'WHERE lignefraishorsforfait.idfraisforfait = :idFrais'
                 );
             $requetePrepare->bindParam(':libelle', $lesFrais['libelle'], PDO::PARAM_INT);

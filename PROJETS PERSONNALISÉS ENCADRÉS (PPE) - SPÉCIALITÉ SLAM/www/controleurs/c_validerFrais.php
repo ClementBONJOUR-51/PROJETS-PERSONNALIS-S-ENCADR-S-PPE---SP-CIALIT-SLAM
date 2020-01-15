@@ -45,7 +45,7 @@ case 'resultatFicheFrais':
     break;
 case 'corrigerFraisForfait':
     // récuperation de l'id,mois,frais du formulaire reçu et execution de le requête
-    $idVisiteurChoisi = filter_input(INPUT_POST, 'leVisiteur');
+    $idVisiteurChoisi = filter_input(INPUT_POST, 'leVisiteur', FILTER_SANITIZE_STRING);
     $leMois = filter_input(INPUT_POST, 'leMois', FILTER_SANITIZE_STRING);
     $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
     if (lesQteFraisValides($lesFrais)) {
@@ -78,7 +78,19 @@ case 'corrigerFraisForfait':
     }
     break;
 case 'corrigerFraisHorsForfait':
-    
+    //récuperation des réponses corrigées du formulaire
+    $idFraisHorsForfait = filter_input(INPUT_POST, 'idFraisHF', FILTER_SANITIZE_STRING);
+    $dateFraisHorsForfait = filter_input(INPUT_POST, 'dateHF', FILTER_SANITIZE_STRING);
+    $libFraisHorsForfait = filter_input(INPUT_POST, 'libHF', FILTER_SANITIZE_STRING);
+    $montantFraisHorsForfait = filter_input(INPUT_POST, 'montantHF', FILTER_SANITIZE_STRING);
+    $fraisHorsForfait = array();
+    $fraisHorsForfait[] = array(
+    'libelle' => $libFraisHorsForfait,
+    'date' => $dateFraisHorsForfait,
+    'montant' => $montantFraisHorsForfait
+        
+    );
+    $pdo->majFraisHorsForfait($idFraisHorsForfait, $fraisHorsForfait);
     break;
 }
 ?>

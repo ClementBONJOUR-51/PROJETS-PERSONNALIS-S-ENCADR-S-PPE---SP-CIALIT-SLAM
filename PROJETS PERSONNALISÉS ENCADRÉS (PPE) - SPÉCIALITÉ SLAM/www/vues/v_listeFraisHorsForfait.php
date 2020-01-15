@@ -43,9 +43,9 @@
                            onclick="return confirm('Voulez-vous vraiment supprimer ce frais?');">Supprimer ce frais</a></td>
                 <?php }else{?>
                 <form method="post" action="index.php?uc=validerFrais&action=corrigerFraisHorsForfait&idFraisHF=<?php echo $id ?>" role="form">
-                	<td><input type="text" id="dateHF" name="dateHF[<?php echo $id ?>]" value="<?php echo $date ?>"></td>
-                	<td><input type="text" id="libHF" name="libHF[<?php echo $id ?>]" value="<?php echo $libelle ?>"></td>
-                	<td><input type="text" id="montantHF" name="montantHF[<?php echo $id ?>]" value="<?php echo $montant ?>"></td>
+                	<td><input type="text" id="dateHF" name="dateHF" value="<?php echo $date ?>"></td>
+                	<td><input type="text" id="libHF" name="libHF" value="<?php echo $libelle ?>"></td>
+                	<td><input type="text" id="montantHF" name="montantHF" value="<?php echo $montant ?>"></td>
                 	<td><button class="btn btn-success" type="submit"
                  onclick="alert('Les informations de frais ont bien été corrigées');">Corriger</button></td>
                  </form >
