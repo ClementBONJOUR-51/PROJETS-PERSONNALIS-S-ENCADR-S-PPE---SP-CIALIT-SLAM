@@ -77,5 +77,8 @@ case 'corrigerFraisForfait':
         include 'vues/v_erreurs.php';
     }
     break;
+case 'corrigerFraisHorsForfait':
+    
+    break;
 }
 ?>
