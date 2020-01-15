@@ -42,7 +42,10 @@
                     <td><a href="index.php?uc=gererFrais&action=supprimerFrais&idFrais=<?php echo $id ?>" 
                            onclick="return confirm('Voulez-vous vraiment supprimer ce frais?');">Supprimer ce frais</a></td>
                 <?php }else{?>
-                <form method="post" action="index.php?uc=validerFrais&action=corrigerFraisHorsForfait&idFraisHF=<?php echo $id ?>" role="form">
+                <form method="post" action="index.php?uc=validerFrais&action=corrigerFraisHorsForfait" role="form">
+                	<input type="text" id="idFraisHF" name="idFraisHF" value="<?php echo $id ?>" style="display:none">
+                	<input type="text" id="leVisiteur" name="leVisiteur"value="<?php echo $idVisiteurChoisi ?>" style="display:none">
+                    <input type="text" id="leMois" name="leMois" value="<?php echo $leMois ?>" style="display:none">
                 	<td><input type="text" id="dateHF" name="dateHF" value="<?php echo $date ?>"></td>
                 	<td><input type="text" id="libHF" name="libHF" value="<?php echo $libelle ?>"></td>
                 	<td><input type="text" id="montantHF" name="montantHF" value="<?php echo $montant ?>"></td>

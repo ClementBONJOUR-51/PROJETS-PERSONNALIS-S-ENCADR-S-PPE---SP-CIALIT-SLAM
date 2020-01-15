@@ -8,8 +8,8 @@
         <form action="index.php?uc=validerFrais&action=resultatFicheFrais" id="formVisiteur"
               method="post" role="form">
             <div class="form-group">
-                <label for="lstVisiteur" accesskey="n">Visiteur : </label>
-                <select id="lstVisiteur" name="lstVisiteur" class="form-control" onchange="this.form.submit()">
+                <label for="leVisiteur" accesskey="n">Visiteur : </label>
+                <select id="leVisiteur" name="leVisiteur" class="form-control" onchange="this.form.submit()">
                    	<?php
                     foreach ($lesVisiteurs as $unVisiteur) {
                         $idVisiteur = $unVisiteur['id'];
@@ -31,8 +31,8 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="lstMois" accesskey="n">Mois : </label>
-                <select id="lstMois" name="lstMois" class="form-control" onchange="this.form.submit()">
+                <label for="leMois" accesskey="n">Mois : </label>
+                <select id="leMois" name="leMois" class="form-control" onchange="this.form.submit()">
                     <?php
                     foreach ($lesMois as $unMois) {
                         $mois = $unMois['mois'];
@@ -54,6 +54,7 @@
 
                 </select>
             </div>
+          
           <input id="ok" type="submit" value="Valider" class="btn btn-success" 
                    role="button">
            <!-- <input id="annuler" type="reset" value="Effacer" class="btn btn-danger" 

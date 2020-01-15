@@ -19,11 +19,14 @@ case 'selectionnerVisiteurEtMois':
     include 'vues/v_listeVisiteur.php';
     break;
 case 'resultatFicheFrais':
-    $idVisiteurChoisi = filter_input(INPUT_POST, 'lstVisiteur', FILTER_SANITIZE_STRING); //récuperation des réponse formulaire
-    $leMois = filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING);
+    $idVisiteurChoisi = filter_input(INPUT_POST, 'leVisiteur', FILTER_SANITIZE_STRING); //récuperation des réponse formulaire
+    $leMois = filter_input(INPUT_POST, 'leMois', FILTER_SANITIZE_STRING);
+    $lesMois = $pdo->getLesMoisDisponibles($idVisiteurChoisi); // je recherche les mois disponible avec le visiteur choisi
+    if($leMois==null && count($lesMois)>0){ //debug : si il n'y avais aucun mois auparavant, alors je prend le premier mois du visiteur selectionner si il y en a un !
+        $leMois = $lesMois[0]['mois'];
+    }
     $lesVisiteurs = $pdo->getVisiteurs(); // je recherche les visiteurs disponible pour les réafficher 
     $leVisiteur = $pdo->getVisiteur($idVisiteurChoisi); // avec l'id du visiteur choisi, je le recherche dans la bdd
-    $lesMois = $pdo->getLesMoisDisponibles($idVisiteurChoisi); // je recherche les mois disponible avec le visiteur choisi
     /*var_dump($leMois);
     var_dump($idVisiteurChoisi);
     var_dump($lesMois);
@@ -31,6 +34,7 @@ case 'resultatFicheFrais':
     $visiteurSelectionner = $leVisiteur;
     $moisSelectionner = $leMois;
     include 'vues/v_listeVisiteur.php';
+    if(count($lesMois)>0){ // si le visiteur a au moins 1 mois dans sa liste alors
     $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteurChoisi, $leMois);
     $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteurChoisi, $leMois);
     $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteurChoisi, $leMois);
@@ -42,6 +46,7 @@ case 'resultatFicheFrais':
     $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
     include 'vues/v_listeFraisForfait.php';
     include 'vues/v_listeFraisHorsForfait.php';
+    }
     break;
 case 'corrigerFraisForfait':
     // récuperation de l'id,mois,frais du formulaire reçu et execution de le requête
@@ -83,14 +88,40 @@ case 'corrigerFraisHorsForfait':
     $dateFraisHorsForfait = filter_input(INPUT_POST, 'dateHF', FILTER_SANITIZE_STRING);
     $libFraisHorsForfait = filter_input(INPUT_POST, 'libHF', FILTER_SANITIZE_STRING);
     $montantFraisHorsForfait = filter_input(INPUT_POST, 'montantHF', FILTER_SANITIZE_STRING);
-    $fraisHorsForfait = array();
-    $fraisHorsForfait[] = array(
+    $fraisHorsForfait = array(
     'libelle' => $libFraisHorsForfait,
     'date' => $dateFraisHorsForfait,
     'montant' => $montantFraisHorsForfait
         
     );
+    /*var_dump($idFraisHorsForfait);
+    var_dump($fraisHorsForfait['libelle']);
+    var_dump($fraisHorsForfait['date']);
+    var_dump($fraisHorsForfait['montant']);*/
     $pdo->majFraisHorsForfait($idFraisHorsForfait, $fraisHorsForfait);
+    
+    $idVisiteurChoisi = filter_input(INPUT_POST, 'leVisiteur', FILTER_SANITIZE_STRING);
+    $leMois = filter_input(INPUT_POST, 'leMois', FILTER_SANITIZE_STRING);
+    $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
+    $lesVisiteurs = $pdo->getVisiteurs();
+    $leVisiteur = $pdo->getVisiteur($idVisiteurChoisi);
+    $lesMois = $pdo->getLesMoisDisponibles($idVisiteurChoisi);
+    $visiteurSelectionner = $leVisiteur;
+    $moisSelectionner = $leMois;
+    include 'vues/v_listeVisiteur.php';
+    $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteurChoisi, $leMois);
+    $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteurChoisi, $leMois);
+    $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteurChoisi, $leMois);
+    $numAnnee = substr($leMois, 0, 4);
+    $numMois = substr($leMois, 4, 2);
+    $libEtat = $lesInfosFicheFrais['libEtat'];
+    $montantValide = $lesInfosFicheFrais['montantValide'];
+    $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
+    $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
+    include 'vues/v_listeFraisForfait.php';
+    include 'vues/v_listeFraisHorsForfait.php';
+    
+    
     break;
 }
 ?>
