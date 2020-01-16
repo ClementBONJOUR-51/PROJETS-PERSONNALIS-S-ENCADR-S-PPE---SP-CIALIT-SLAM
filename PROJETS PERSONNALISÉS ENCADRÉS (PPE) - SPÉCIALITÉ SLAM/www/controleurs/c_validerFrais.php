@@ -96,7 +96,13 @@ case 'corrigerFraisHorsForfait':
     var_dump($fraisHorsForfait['libelle']);
     var_dump($fraisHorsForfait['date']);
     var_dump($fraisHorsForfait['montant']);*/
-    $pdo->majFraisHorsForfait($idFraisHorsForfait, $fraisHorsForfait);
+    valideInfosFrais($dateFraisHorsForfait, $libFraisHorsForfait, $montantFraisHorsForfait);
+    if (nbErreurs() != 0) { // si il n'y a pas d'erreur dans la date et autre
+        include 'vues/v_erreurs.php';
+    } else {
+        $pdo->majFraisHorsForfait($idFraisHorsForfait, $fraisHorsForfait);
+    }
+    
     
     $idVisiteurChoisi = filter_input(INPUT_POST, 'leVisiteur', FILTER_SANITIZE_STRING);
     $leMois = filter_input(INPUT_POST, 'leMois', FILTER_SANITIZE_STRING);

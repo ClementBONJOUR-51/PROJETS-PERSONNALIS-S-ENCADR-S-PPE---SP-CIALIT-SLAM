@@ -54,7 +54,7 @@ if(count($lesMois)>0){
                  onclick="alert('Les informations de frais ont bien été corrigées');">Corriger</button></td>
                  <td><button class="btn btn-danger" type="submit" 
                  onclick="
-                 return confirm('Voulez-vous vraiment refuser le frais intitulé : &quot;<?php echo $libelle ?>&quot; ?');
+                 confirm('Voulez-vous vraiment refuser le frais intitulé : &quot;<?php echo $libelle ?>&quot; ?');
                  getElementById('libHF[<?php echo $id ?>]').value = 'REFUSE : '+getElementById('libHF[<?php echo $id ?>]').value;
                  "
                  <?php if(substr($libelle,0,8)=="REFUSE :"){ ?>disabled <?php }?>
