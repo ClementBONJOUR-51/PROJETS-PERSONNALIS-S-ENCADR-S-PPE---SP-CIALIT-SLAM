@@ -13,7 +13,7 @@
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
-if(count($lesMois)>0){
+if( $lesFraisForfait!=null && count($lesFraisForfait)>0){
 ?>
 <div class="row">    
     <h2>
@@ -68,4 +68,4 @@ if(count($lesMois)>0){
         </form>
     </div>
 </div>
-<?php }else{?><h2>Aucune fiche de frais pour ce visiteur</h2><?php }?>
+<?php }else{?><h2>Aucun frais forfait pour ce visiteur</h2><?php }?>

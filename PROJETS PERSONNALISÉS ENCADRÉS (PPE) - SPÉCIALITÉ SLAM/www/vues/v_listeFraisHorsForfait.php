@@ -13,7 +13,7 @@
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
-if(count($lesMois)>0){
+if($lesFraisHorsForfait!=null && count($lesFraisHorsForfait)>0){
 ?>
 <hr>
 <div class="row">
@@ -46,7 +46,7 @@ if(count($lesMois)>0){
                 <form method="post" action="index.php?uc=validerFrais&action=corrigerFraisHorsForfait" role="form">
                 	<input type="text" id="idFraisHF" name="idFraisHF" value="<?php echo $id ?>" style="display:none">
                 	<input type="text" id="leVisiteur" name="leVisiteur"value="<?php echo $idVisiteurChoisi ?>" style="display:none">
-                    <input type="text" id="leMois" name="leMois" value="<?php echo $leMois ?>" style="display:none">
+                    <input type="text" id="leMois" name="leMois" value="<?php echo $moisSelectionner ?>" style="display:none">
                 	<td><input type="text" id="dateHF[<?php echo $id ?>]" name="dateHF" value="<?php echo $date ?>"></td>
                 	<td><input type="text" id="libHF[<?php echo $id ?>]" name="libHF" value="<?php echo $libelle ?>"></td>
                 	<td><input type="text" id="montantHF[<?php echo $id ?>]" name="montantHF" value="<?php echo $montant ?>"></td>
@@ -98,4 +98,4 @@ if(count($lesMois)>0){
 </div>
 <?php }
 
-}?>
+}else{?><h2>Aucun frais Hors forfait pour ce visiteur</h2><?php }?>

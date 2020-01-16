@@ -19,33 +19,43 @@ case 'selectionnerVisiteurEtMois':
     include 'vues/v_listeVisiteur.php';
     break;
 case 'resultatFicheFrais':
-    $idVisiteurChoisi = filter_input(INPUT_POST, 'leVisiteur', FILTER_SANITIZE_STRING); //récuperation des réponse formulaire
+    //récuperation des réponse formulaire
+    $idVisiteurChoisi = filter_input(INPUT_POST, 'leVisiteur', FILTER_SANITIZE_STRING);
     $leMois = filter_input(INPUT_POST, 'leMois', FILTER_SANITIZE_STRING);
-    $lesMois = $pdo->getLesMoisDisponibles($idVisiteurChoisi); // je recherche les mois disponible avec le visiteur choisi
-    $moisSelectionner = $leMois;
     
+    //récuperation des mois disponible celon le visiteur selectionné
+    $lesMois = $pdo->getLesMoisDisponibles($idVisiteurChoisi);
+    $lesVisiteurs = $pdo->getVisiteurs(); // je recherche les visiteurs disponible pour les réafficher
+    $leVisiteur = $pdo->getVisiteur($idVisiteurChoisi); // avec l'id du visiteur choisi, je le recherche dans la bdd
+    
+    //test erreur $leMois
     $listeMoisString = array();
-    if(count($lesMois)>0){ // si le visiteur selectionné a au moins une fiche/ un mois
+    if(count($lesMois)<=0){
+        $leMois = null; // si aucun mois n'est disponible pour le visiteur, alors le mois récuperer est érroné et ne doit plus être celui qu'il est
+    } else{
+        // si le visiteur selectionné a au moins une fiche/ un mois
         foreach ($lesMois as $Mois){
             array_push($listeMoisString,$Mois['mois']); // construction d'un tableau 1D des mois 
         }
-        if(!in_array($leMois,$listeMoisString) || $leMois==null){ // si le mois returner par le formulaire n'est pas la liste ou bien est null
-            $lesCles = array_keys($lesMois);
-            $moisSelectionner = $lesCles[0]; // alors je prend le premier mois de la liste du visiteur selectionné
-        }
     }
-
-
-    $lesVisiteurs = $pdo->getVisiteurs(); // je recherche les visiteurs disponible pour les réafficher 
-    $leVisiteur = $pdo->getVisiteur($idVisiteurChoisi); // avec l'id du visiteur choisi, je le recherche dans la bdd
-    var_dump($leMois);
-    var_dump($listeMoisString);
-    //var_dump($idVisiteurChoisi);
-    var_dump($lesMois);
-    //var_dump($leVisiteur['id']);
-    $visiteurSelectionner = $leVisiteur;
+    
+    //correction $leMois
+    if(count($lesMois)> 0 && (!in_array($leMois,$listeMoisString) || $leMois==null)){ // si le mois returné par le formulaire n'est pas dans la liste ou bien est null
+        $lesCles = array_keys($lesMois);
+        $leMois = $lesMois[$lesCles[0]]['mois']; // alors je prend le premier mois de la liste du visiteur selectionné
+    }
+    
     $moisSelectionner = $leMois;
+    $visiteurSelectionner = $leVisiteur;
     include 'vues/v_listeVisiteur.php';
+    
+    //partie fiche Frais
+    //declaration variable à null
+    $lesFraisHorsForfait = null;
+    $lesFraisForfait = null;
+    $lesInfosFicheFrais = null;
+    //Si il y a bien un mois selectionné
+    if($moisSelectionner!=null){
     $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteurChoisi, $moisSelectionner);
     $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteurChoisi, $moisSelectionner);
     $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteurChoisi, $moisSelectionner);
@@ -55,37 +65,69 @@ case 'resultatFicheFrais':
     $montantValide = $lesInfosFicheFrais['montantValide'];
     $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
     $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
+    }
     include 'vues/v_listeFraisForfait.php';
     include 'vues/v_listeFraisHorsForfait.php';
+//     var_dump($idVisiteurChoisi);
+//     var_dump($leVisiteur['id']);
+//     var_dump($leMois);
+//     var_dump($lesMois);
+//     var_dump($moisSelectionner);
+//     var_dump($listeMoisString);
+//     var_dump($lesFraisForfait);
+//     var_dump($lesFraisHorsForfait);
     break;
 case 'corrigerFraisForfait':
-    // récuperation de l'id,mois,frais du formulaire reçu et execution de le requête
+    // récuperation de l'id,mois,frais du formulaire reçu
     $idVisiteurChoisi = filter_input(INPUT_POST, 'leVisiteur', FILTER_SANITIZE_STRING);
     $leMois = filter_input(INPUT_POST, 'leMois', FILTER_SANITIZE_STRING);
     $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
+    
     if (lesQteFraisValides($lesFrais)) {
-        /*var_dump($leVisiteur);
-        var_dump($leMois);
-        var_dump($lesFrais);*/
         $pdo->majFraisForfait($idVisiteurChoisi, $leMois, $lesFrais);
         //réaffichage page defaut
         $lesVisiteurs = $pdo->getVisiteurs();
         $leVisiteur = $pdo->getVisiteur($idVisiteurChoisi);
         $lesMois = $pdo->getLesMoisDisponibles($idVisiteurChoisi);
-        $visiteurSelectionner = $leVisiteur;
+        
+        //test erreur $leMois
+        $listeMoisString = array();
+        if(count($lesMois)<=0){
+            $leMois = null; // si aucun mois n'est disponible pour le visiteur, alors le mois récuperer est érroné et ne doit plus être celui qu'il est
+        } else{
+            // si le visiteur selectionné a au moins une fiche/ un mois
+            foreach ($lesMois as $Mois){
+                array_push($listeMoisString,$Mois['mois']); // construction d'un tableau 1D des mois
+            }
+        }
+        
+        //correction $leMois
+        if(count($lesMois)> 0 && (!in_array($leMois,$listeMoisString) || $leMois==null)){ // si le mois returné par le formulaire n'est pas dans la liste ou bien est null
+            $lesCles = array_keys($lesMois);
+            $leMois = $lesMois[$lesCles[0]]['mois']; // alors je prend le premier mois de la liste du visiteur selectionné
+        }
+        
         $moisSelectionner = $leMois;
+        $visiteurSelectionner = $leVisiteur;
         include 'vues/v_listeVisiteur.php';
-        $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteurChoisi, $leMois);
-        $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteurChoisi, $leMois);
-        $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteurChoisi, $leMois);
-        $numAnnee = substr($leMois, 0, 4);
-        $numMois = substr($leMois, 4, 2);
-        $libEtat = $lesInfosFicheFrais['libEtat'];
-        $montantValide = $lesInfosFicheFrais['montantValide'];
-        $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
-        $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
-        include 'vues/v_listeFraisForfait.php';
-        include 'vues/v_listeFraisHorsForfait.php';
+        
+        //partie fiche Frais
+        //declaration variable à null
+        $lesFraisHorsForfait = null;
+        $lesFraisForfait = null;
+        $lesInfosFicheFrais = null;
+        //Si il y a bien un mois selectionné
+        if($moisSelectionner!=null){
+            $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteurChoisi, $moisSelectionner);
+            $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteurChoisi, $moisSelectionner);
+            $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteurChoisi, $moisSelectionner);
+            $numAnnee = substr($moisSelectionner, 0, 4);
+            $numMois = substr($moisSelectionner, 4, 2);
+            $libEtat = $lesInfosFicheFrais['libEtat'];
+            $montantValide = $lesInfosFicheFrais['montantValide'];
+            $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
+            $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
+        }
     
     } else {
         ajouterErreur('Les valeurs des frais doivent Ãªtre numÃ©riques');
