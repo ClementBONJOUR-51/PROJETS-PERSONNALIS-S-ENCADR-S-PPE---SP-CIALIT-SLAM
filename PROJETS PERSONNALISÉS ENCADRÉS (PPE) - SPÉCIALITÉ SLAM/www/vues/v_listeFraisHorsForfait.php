@@ -47,19 +47,21 @@ if($lesFraisHorsForfait!=null && count($lesFraisHorsForfait)>0){
                 	<input type="text" id="idFraisHF" name="idFraisHF" value="<?php echo $id ?>" style="display:none">
                 	<input type="text" id="leVisiteur" name="leVisiteur"value="<?php echo $idVisiteurChoisi ?>" style="display:none">
                     <input type="text" id="leMois" name="leMois" value="<?php echo $moisSelectionner ?>" style="display:none">
-                	<td><input type="text" id="dateHF[<?php echo $id ?>]" name="dateHF" value="<?php echo $date ?>"></td>
-                	<td><input type="text" id="libHF[<?php echo $id ?>]" name="libHF" value="<?php echo $libelle ?>"></td>
-                	<td><input type="text" id="montantHF[<?php echo $id ?>]" name="montantHF" value="<?php echo $montant ?>"></td>
-                	<td><button class="btn btn-success" type="submit"
-                 onclick="alert('Les informations de frais ont bien été corrigées');">Corriger</button></td>
-                 <td><button class="btn btn-danger" type="submit" 
-                 onclick="
-                 confirm('Voulez-vous vraiment refuser le frais intitulé : &quot;<?php echo $libelle ?>&quot; ?');
-                 getElementById('libHF[<?php echo $id ?>]').value = 'REFUSE : '+getElementById('libHF[<?php echo $id ?>]').value;
-                 "
+                	<td><input type="text" id="dateHF[<?php echo $id ?>]" name="dateHF" value="<?php echo $date ?>"
+                				onchange="document.getElementById('corrFraisHF[<?php echo $id ?>]').disabled = false;"></td>
+                	<td><input type="text" id="libHF[<?php echo $id ?>]" name="libHF" value="<?php echo $libelle ?>"
+                				onchange="document.getElementById('corrFraisHF[<?php echo $id ?>]').disabled = false;"></td>
+                	<td><input type="text" id="montantHF[<?php echo $id ?>]" name="montantHF" value="<?php echo $montant ?>"
+                				onchange="document.getElementById('corrFraisHF[<?php echo $id ?>]').disabled = false;"></td>
+                	<td><button id="corrFraisHF[<?php echo $id?>]" class="btn btn-success" type="submit" disabled
+                 				onclick="alert('Les informations de frais ont bien été corrigées');">Corriger</button></td>
+                 	<td><button class="btn btn-danger" type="submit" 
+                 				onclick="
+                 				confirm('Voulez-vous vraiment refuser le frais intitulé : &quot;<?php echo $libelle ?>&quot; ?');
+                 				getElementById('libHF[<?php echo $id ?>]').value = 'REFUSE : '+getElementById('libHF[<?php echo $id ?>]').value;"
                  <?php if(substr($libelle,0,8)=="REFUSE :"){ ?>disabled <?php }?>
                  >REFUSER</button></td>
-                 </form >
+                </form >
                 <?php } ?>
                 </tr>
                 <?php } ?>

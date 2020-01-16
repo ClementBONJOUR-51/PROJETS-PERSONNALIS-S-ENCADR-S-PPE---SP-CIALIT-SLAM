@@ -29,7 +29,9 @@ if( $lesFraisForfait!=null && count($lesFraisForfait)>0){
     <?php }else{?>
     	<form method="post" 
               action="index.php?uc=validerFrais&action=corrigerFraisForfait" 
-              role="form">
+              role="form"
+              onchange="document.getElementById('corrFraisF').disabled = false;
+                        document.getElementById('majFraisF').disabled = false;">
     <?php }?>
             <fieldset>       
                 <?php
@@ -57,13 +59,14 @@ if( $lesFraisForfait!=null && count($lesFraisForfait)>0){
                 </div>    
                                
                 <?php if(!$_SESSION['comptableBool']){?>
-                <button class="btn btn-success" type="submit">Mettre &agrave; jour</button>
+                <button id="majFraisF" class="btn btn-success" type="submit" disabled>Mettre &agrave; jour</button>
                 <?php }else{?>
-                <button class="btn btn-success" type="submit"
+                <button id="corrFraisF" class="btn btn-success" type="submit" disabled
                  onclick="alert('Les informations de frais ont bien été corrigées');">Corriger</button>
                 <?php }?>
                 <button class="btn btn-danger" type="reset"
-                 onclick="alert('Actualisation des informations');">Réinitialiser</button>
+                 onclick="alert('Actualisation des informations, les changements seront perdus');document.getElementById('corrFraisF').disabled = true;document.getElementById('corrFraisF').disabled = true;
+                     ">Réinitialiser</button>
             </fieldset>
         </form>
     </div>
