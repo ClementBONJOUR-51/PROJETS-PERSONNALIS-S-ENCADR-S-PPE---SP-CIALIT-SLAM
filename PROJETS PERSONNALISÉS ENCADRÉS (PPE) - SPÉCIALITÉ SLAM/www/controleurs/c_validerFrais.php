@@ -22,23 +22,35 @@ case 'resultatFicheFrais':
     $idVisiteurChoisi = filter_input(INPUT_POST, 'leVisiteur', FILTER_SANITIZE_STRING); //récuperation des réponse formulaire
     $leMois = filter_input(INPUT_POST, 'leMois', FILTER_SANITIZE_STRING);
     $lesMois = $pdo->getLesMoisDisponibles($idVisiteurChoisi); // je recherche les mois disponible avec le visiteur choisi
-    if($leMois==null && count($lesMois)>0){ //debug : si il n'y avais aucun mois auparavant, alors je prend le premier mois du visiteur selectionner si il y en a un !
-        $leMois = $lesMois[0]['mois'];
+    $moisSelectionner = $leMois;
+    
+    $listeMoisString = array();
+    if(count($lesMois)>0){ // si le visiteur selectionné a au moins une fiche/ un mois
+        foreach ($lesMois as $Mois){
+            array_push($listeMoisString,$Mois['mois']); // construction d'un tableau 1D des mois 
+        }
+        if(!in_array($leMois,$listeMoisString) || $leMois==null){ // si le mois returner par le formulaire n'est pas la liste ou bien est null
+            $lesCles = array_keys($lesMois);
+            $moisSelectionner = $lesCles[0]; // alors je prend le premier mois de la liste du visiteur selectionné
+        }
     }
+
+
     $lesVisiteurs = $pdo->getVisiteurs(); // je recherche les visiteurs disponible pour les réafficher 
     $leVisiteur = $pdo->getVisiteur($idVisiteurChoisi); // avec l'id du visiteur choisi, je le recherche dans la bdd
-    /*var_dump($leMois);
-    var_dump($idVisiteurChoisi);
+    var_dump($leMois);
+    var_dump($listeMoisString);
+    //var_dump($idVisiteurChoisi);
     var_dump($lesMois);
-    var_dump($leVisiteur['id']);*/
+    //var_dump($leVisiteur['id']);
     $visiteurSelectionner = $leVisiteur;
     $moisSelectionner = $leMois;
     include 'vues/v_listeVisiteur.php';
-    $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteurChoisi, $leMois);
-    $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteurChoisi, $leMois);
-    $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteurChoisi, $leMois);
-    $numAnnee = substr($leMois, 0, 4);
-    $numMois = substr($leMois, 4, 2);
+    $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteurChoisi, $moisSelectionner);
+    $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteurChoisi, $moisSelectionner);
+    $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteurChoisi, $moisSelectionner);
+    $numAnnee = substr($moisSelectionner, 0, 4);
+    $numMois = substr($moisSelectionner, 4, 2);
     $libEtat = $lesInfosFicheFrais['libEtat'];
     $montantValide = $lesInfosFicheFrais['montantValide'];
     $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
