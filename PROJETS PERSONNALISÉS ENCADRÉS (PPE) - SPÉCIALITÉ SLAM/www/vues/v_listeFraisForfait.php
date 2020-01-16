@@ -13,6 +13,7 @@
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
+if(count($lesMois)>0){
 ?>
 <div class="row">    
     <h2>
@@ -56,13 +57,15 @@
                 </div>    
                                
                 <?php if(!$_SESSION['comptableBool']){?>
-                <button class="btn btn-success" type="submit">Ajouter</button>
+                <button class="btn btn-success" type="submit">Mettre &agrave; jour</button>
                 <?php }else{?>
                 <button class="btn btn-success" type="submit"
                  onclick="alert('Les informations de frais ont bien été corrigées');">Corriger</button>
                 <?php }?>
-                <button class="btn btn-danger" type="reset">Effacer</button>
+                <button class="btn btn-danger" type="reset"
+                 onclick="alert('Actualisation des informations');">Réinitialiser</button>
             </fieldset>
         </form>
     </div>
 </div>
+<?php }else{?><h2>Aucune fiche de frais pour ce visiteur</h2><?php }?>

@@ -13,6 +13,7 @@
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
+if(count($lesMois)>0){
 ?>
 <hr>
 <div class="row">
@@ -46,11 +47,18 @@
                 	<input type="text" id="idFraisHF" name="idFraisHF" value="<?php echo $id ?>" style="display:none">
                 	<input type="text" id="leVisiteur" name="leVisiteur"value="<?php echo $idVisiteurChoisi ?>" style="display:none">
                     <input type="text" id="leMois" name="leMois" value="<?php echo $leMois ?>" style="display:none">
-                	<td><input type="text" id="dateHF" name="dateHF" value="<?php echo $date ?>"></td>
-                	<td><input type="text" id="libHF" name="libHF" value="<?php echo $libelle ?>"></td>
-                	<td><input type="text" id="montantHF" name="montantHF" value="<?php echo $montant ?>"></td>
+                	<td><input type="text" id="dateHF[<?php echo $id ?>]" name="dateHF" value="<?php echo $date ?>"></td>
+                	<td><input type="text" id="libHF[<?php echo $id ?>]" name="libHF" value="<?php echo $libelle ?>"></td>
+                	<td><input type="text" id="montantHF[<?php echo $id ?>]" name="montantHF" value="<?php echo $montant ?>"></td>
                 	<td><button class="btn btn-success" type="submit"
                  onclick="alert('Les informations de frais ont bien été corrigées');">Corriger</button></td>
+                 <td><button class="btn btn-danger" type="submit" 
+                 onclick="
+                 alert('Frais du mois :<?php echo $date ?>, refusé');
+                 getElementById('libHF[<?php echo $id ?>]').value = 'REFUSE : '+getElementById('libHF[<?php echo $id ?>]').value;
+                 "
+                 <?php if(substr($libelle,0,8)=="REFUSE :"){ ?>disabled <?php }?>
+                 >REFUSER</button></td>
                  </form >
                 <?php } ?>
                 </tr>
@@ -88,4 +96,6 @@
         </form>
     </div>
 </div>
-<?php } ?>
+<?php }
+
+}?>

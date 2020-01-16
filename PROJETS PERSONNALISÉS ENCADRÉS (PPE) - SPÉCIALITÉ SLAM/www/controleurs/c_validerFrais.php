@@ -34,7 +34,6 @@ case 'resultatFicheFrais':
     $visiteurSelectionner = $leVisiteur;
     $moisSelectionner = $leMois;
     include 'vues/v_listeVisiteur.php';
-    if(count($lesMois)>0){ // si le visiteur a au moins 1 mois dans sa liste alors
     $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteurChoisi, $leMois);
     $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteurChoisi, $leMois);
     $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteurChoisi, $leMois);
@@ -46,7 +45,6 @@ case 'resultatFicheFrais':
     $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
     include 'vues/v_listeFraisForfait.php';
     include 'vues/v_listeFraisHorsForfait.php';
-    }
     break;
 case 'corrigerFraisForfait':
     // récuperation de l'id,mois,frais du formulaire reçu et execution de le requête
@@ -87,12 +85,12 @@ case 'corrigerFraisHorsForfait':
     $idFraisHorsForfait = filter_input(INPUT_POST, 'idFraisHF', FILTER_SANITIZE_STRING);
     $dateFraisHorsForfait = filter_input(INPUT_POST, 'dateHF', FILTER_SANITIZE_STRING);
     $libFraisHorsForfait = filter_input(INPUT_POST, 'libHF', FILTER_SANITIZE_STRING);
+    $libFraisHorsForfait = substr($libFraisHorsForfait,0,99); // je tronque si la taille du lib et plus grand que 100
     $montantFraisHorsForfait = filter_input(INPUT_POST, 'montantHF', FILTER_SANITIZE_STRING);
     $fraisHorsForfait = array(
     'libelle' => $libFraisHorsForfait,
     'date' => $dateFraisHorsForfait,
-    'montant' => $montantFraisHorsForfait
-        
+    'montant' => $montantFraisHorsForfait     
     );
     /*var_dump($idFraisHorsForfait);
     var_dump($fraisHorsForfait['libelle']);
