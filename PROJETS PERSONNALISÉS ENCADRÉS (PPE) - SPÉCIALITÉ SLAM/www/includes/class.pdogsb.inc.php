@@ -580,4 +580,5 @@ class PdoGsb
         return $leVisiteur;
     }
     
+    
 }

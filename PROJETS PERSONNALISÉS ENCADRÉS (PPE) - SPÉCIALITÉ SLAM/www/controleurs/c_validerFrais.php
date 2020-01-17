@@ -68,6 +68,7 @@ case 'resultatFicheFrais':
     }
     include 'vues/v_listeFraisForfait.php';
     include 'vues/v_listeFraisHorsForfait.php';
+    include 'vues/v_valideFicheFrais.php';
 //     var_dump($idVisiteurChoisi);
 //     var_dump($leVisiteur['id']);
 //     var_dump($leMois);
@@ -127,6 +128,9 @@ case 'corrigerFraisForfait':
             $montantValide = $lesInfosFicheFrais['montantValide'];
             $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
             $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
+            include 'vues/v_listeFraisForfait.php';
+            include 'vues/v_listeFraisHorsForfait.php';
+            include 'vues/v_valideFicheFrais.php';
         }
     
     } else {
@@ -157,7 +161,6 @@ case 'corrigerFraisHorsForfait':
         $pdo->majFraisHorsForfait($idFraisHorsForfait, $fraisHorsForfait);
     }
     
-    
     $idVisiteurChoisi = filter_input(INPUT_POST, 'leVisiteur', FILTER_SANITIZE_STRING);
     $leMois = filter_input(INPUT_POST, 'leMois', FILTER_SANITIZE_STRING);
     $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
@@ -178,6 +181,76 @@ case 'corrigerFraisHorsForfait':
     $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
     include 'vues/v_listeFraisForfait.php';
     include 'vues/v_listeFraisHorsForfait.php';
+    include 'vues/v_valideFicheFrais.php';
+    break;
+case 'validerFicheFrais' :
+    $idVisiteurChoisi = filter_input(INPUT_POST, 'leVisiteur', FILTER_SANITIZE_STRING);
+    $leMois = filter_input(INPUT_POST, 'leMois', FILTER_SANITIZE_STRING);
+    //passe la fiche à l'état validée
+    //maj date modification
+    $pdo->majEtatFicheFrais($idVisiteurChoisi, $leMois, 'VA');
+    
+    //redirection
+    
+    //Visiteurs
+    $lesVisiteurs = $pdo->getVisiteurs(); // je prend la liste de tout les visiteurs existant
+    $visiteurSelectionner = $lesVisiteurs[0]; //selection par defaut
+    //Mois
+    $lesMois = $pdo->getLesMoisDisponibles($visiteurSelectionner['id']);
+    $lesCles = array_keys($lesMois);
+    $moisSelectionner = $lesCles[0];
+    include 'vues/v_listeVisiteur.php';
+    break;
+case 'reporterFraisHorsForfait' :
+
+    $idVisiteurChoisi = filter_input(INPUT_POST, 'leVisiteur', FILTER_SANITIZE_STRING);
+    $leMois = filter_input(INPUT_POST, 'leMois', FILTER_SANITIZE_STRING);
+    $idFraisHorsForfait = filter_input(INPUT_POST, 'idFraisHF', FILTER_SANITIZE_STRING);
+
+    var_dump($idVisiteurChoisi);
+    var_dump($leMois);
+    var_dump($idFraisHorsForfait);
+ 
+    //obtention mois prochain
+    $moisProchain = null;$anneeProchaine = null;
+    $mois = substr($leMois,-2);$annee = substr($leMois,0,4);
+    
+    if($mois=="12"){
+        $moisProchain = "01";
+        $anneeProchaine = $annee + 1;
+    } else {
+        $moisProchain = $mois + 1;
+        $anneeProchaine = $annee;
+    }
+    //remise en forme mois ou année
+    for($zeroDispaMois = 2 - strlen($moisProchain);$zeroDispaMois>0;$zeroDispaMois--)$moisProchain = "0" . $moisProchain;
+    for($zeroDispaAnnee = 4 - strlen($anneeProchaine);$zeroDispaAnnee>0;$zeroDispaAnnee--)$anneeProchaine = "0" . $anneeProchaine;
+    
+    $resultat = $anneeProchaine . $moisProchain; // voici le mois prochain
+    
+    var_dump($resultat);
+    
+    $ficheFraisProchaine = $pdo->getLesInfosFicheFrais($idVisiteurChoisi,$resultat);
+    
+    //si la fiche de mois n'existe pas
+    if($ficheFraisProchaine == false){
+        $pdo->creeNouvellesLignesFrais($idVisiteurChoisi,$resultat); // je créé une fiche
+        $ficheFraisProchaine = $pdo->getLesInfosFicheFrais($idVisiteurChoisi,$resultat);
+    }
+    
+    //je récupère le info fraisHF
+    $copie = null;
+    foreach($pdo->getLesFraisHorsForfait($idVisiteurChoisi,$leMois) as $ligneFraisHF){
+        if($ligneFraisHF['id']==$idFraisHorsForfait){
+            $copie =  $ligneFraisHF;
+        }
+    }
+    
+    // je rajoute la ligne de fraisHorsForfait à cette fiche
+    $pdo->creeNouveauFraisHorsForfait($idVisiteurChoisi,$resultat,$copie['libelle'],$copie['date'],$copie['montant']);
+    
+    // je supprime l'ancient frais HF
+    $pdo->supprimerFraisHorsForfait($idFraisHorsForfait);
     
     
     break;

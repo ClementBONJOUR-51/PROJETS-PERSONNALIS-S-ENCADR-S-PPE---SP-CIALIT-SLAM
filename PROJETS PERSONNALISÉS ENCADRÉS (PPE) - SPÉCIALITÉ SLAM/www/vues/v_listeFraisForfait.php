@@ -18,7 +18,7 @@ if( $lesFraisForfait!=null && count($lesFraisForfait)>0){
 <div class="row">    
     <h2>
     <?php if(!$_SESSION['comptableBool']){?>Renseigner ma fiche de frais du mois <?php }?>
-    <?php echo $numMois . '-' . $numAnnee ?>
+    <?php echo $numMois . '-' . $numAnnee ?> (<?php echo $libEtat  ?>)
     </h2>
     <h3>Eléments forfaitisés</h3>
     <div class="col-md-4">
@@ -30,8 +30,10 @@ if( $lesFraisForfait!=null && count($lesFraisForfait)>0){
     	<form method="post" 
               action="index.php?uc=validerFrais&action=corrigerFraisForfait" 
               role="form"
-              onchange="document.getElementById('corrFraisF').disabled = false;
-                        document.getElementById('majFraisF').disabled = false;">
+              onchange="document.getElementById('validerFicheFrais').disabled = true;
+              			document.getElementById('corrFraisF').disabled = false;
+                        document.getElementById('majFraisF').disabled = false;
+                        ">
     <?php }?>
             <fieldset>       
                 <?php
@@ -65,7 +67,11 @@ if( $lesFraisForfait!=null && count($lesFraisForfait)>0){
                  onclick="alert('Les informations de frais ont bien été corrigées');">Corriger</button>
                 <?php }?>
                 <button class="btn btn-danger" type="reset"
-                 onclick="alert('Actualisation des informations, les changements seront perdus');document.getElementById('corrFraisF').disabled = true;document.getElementById('corrFraisF').disabled = true;
+                 onclick="alert('Actualisation des informations, les changements seront perdus');
+                     document.getElementById('corrFraisF').disabled = true;
+                     document.getElementById('corrFraisF').disabled = true;
+                     document.getElementById('validerFicheFrais').disabled = false;
+                     
                      ">Réinitialiser</button>
             </fieldset>
         </form>
