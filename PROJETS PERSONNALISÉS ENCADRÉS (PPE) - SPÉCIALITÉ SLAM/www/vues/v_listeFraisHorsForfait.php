@@ -25,6 +25,8 @@ if($lesFraisHorsForfait!=null && count($lesFraisHorsForfait)>0){
                     <th class="date">Date</th>
                     <th class="libelle">Libellé</th>  
                     <th class="montant">Montant</th>  
+                    <th class="action">&nbsp;</th>
+                    <th class="action">&nbsp;</th> 
                     <th class="action">&nbsp;</th> 
                 </tr>
             </thead>  
