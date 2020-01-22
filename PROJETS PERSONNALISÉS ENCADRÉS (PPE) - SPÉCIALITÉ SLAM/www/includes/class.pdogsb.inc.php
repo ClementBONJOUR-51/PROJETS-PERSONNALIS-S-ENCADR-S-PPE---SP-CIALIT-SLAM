@@ -221,6 +221,24 @@ class PdoGsb
         $requetePrepare->execute();
         return $requetePrepare->fetchAll();
     }
+    
+    /**
+     * Retourne les id et le montant de la table FraisForfait
+     *
+     * @return un tableau associatif
+     */
+    public function getLesMontantFrais()
+    {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'SELECT fraisforfait.id as idfrais, fraisforfait.montant as montantfrais '
+            . 'FROM fraisforfait ORDER BY fraisforfait.id'
+            );
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll();
+    }
+    
+    
+    
 
     /**
      * Met à jour la table ligneFraisForfait

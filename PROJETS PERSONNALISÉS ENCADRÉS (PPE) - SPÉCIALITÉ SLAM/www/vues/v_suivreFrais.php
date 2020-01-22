@@ -16,7 +16,7 @@
                     <?php echo $infoFicheFrais['visiteur']['prenom'] ?>
                      - 
                     <?php echo $infoFicheFrais['mois']['numMois'] ?>/<?php echo $infoFicheFrais['mois']['numAnnee'] ?>
-                    (<?php echo $infoFicheFrais['info']['libEtat']?>)
+                    (<?php echo $infoFicheFrais['infoFiche']['libEtat']?>)
                 </h3>
 			</div>
 			<div class="panel-body">
@@ -34,8 +34,10 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td>
-								</td>
+								<td><?php echo $infoFicheFrais['totalForfait'] ?> 	&euro;</td>
+								<td><?php echo $infoFicheFrais['totalHorsForfait'] ?> 	&euro;</td>
+								<td><?php echo ($infoFicheFrais['totalForfait'] + $infoFicheFrais['totalHorsForfait']) ?> 	&euro;</td>
+
 							</tr>
 						</tbody>
 					</table>
