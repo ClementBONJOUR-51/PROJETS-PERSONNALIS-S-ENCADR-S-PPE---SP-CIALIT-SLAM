@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Vue Entête
  *
@@ -16,29 +17,29 @@
 ?>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta charset="UTF-8">
-        <title>Intranet du Laboratoire Galaxy-Swiss Bourdin</title> 
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="./styles/bootstrap/bootstrap.css" rel="stylesheet">
-        <link href="./styles/style.css" rel="stylesheet">
-    </head>
-    <body>
-        <div class="container">
-            <?php
-            $uc = filter_input(INPUT_GET, 'uc', FILTER_SANITIZE_STRING);
-            if ($estConnecte) {
-                ?>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+    <title>Intranet du Laboratoire Galaxy-Swiss Bourdin</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./styles/bootstrap/bootstrap.css" rel="stylesheet">
+    <link href="./styles/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <?php
+        $uc = filter_input(INPUT_GET, 'uc', FILTER_SANITIZE_STRING);
+        if ($estConnecte) {
+        ?>
             <div class="header">
                 <div class="row vertical-align">
                     <div class="col-md-4">
                         <h1>
-                            <img src="./images/logo.jpg" class="img-responsive" 
-                                 alt="Laboratoire Galaxy-Swiss Bourdin" 
-                                 title="Laboratoire Galaxy-Swiss Bourdin">
+                            <img src="./images/logo.jpg" class="img-responsive" alt="Laboratoire Galaxy-Swiss Bourdin" title="Laboratoire Galaxy-Swiss Bourdin">
                         </h1>
                     </div>
                     <div class="col-md-8">
@@ -49,41 +50,40 @@
                                     Accueil
                                 </a>
                             </li>
-                            
-                            <?php if(!$_SESSION['comptableBool']){?>
-                            
-                            <li <?php if ($uc == 'gererFrais') { ?>class="active"<?php } ?>>
-                                <a href="index.php?uc=gererFrais&action=saisirFrais">
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                    Renseigner la fiche de frais
-                                </a>
-                            </li>
-                            <li <?php if ($uc == 'etatFrais') { ?>class="active"<?php } ?>>
-                                <a href="index.php?uc=etatFrais&action=selectionnerMois">
-                                    <span class="glyphicon glyphicon-list-alt"></span>
-                                    Afficher mes fiches de frais
-                                </a>
-                            </li>
-                            <?php }else{ ?>
-                            
-                            <li <?php if ($uc == 'validerFrais') { ?>class="active"<?php } ?>>
-                                <a href="index.php?uc=validerFrais&action=selectionnerVisiteurEtMois">
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                    Valider les fiches de frais
-                                </a>
-                            </li>
-                            <li <?php if ($uc == 'suivreFrais') { ?>class="active"<?php } ?>>
-                                <a href="index.php?uc=suivreFrais&action=listeFiche">
-                                    <span class="glyphicon glyphicon-list-alt"></span>
-                                    Suivre le payement des fiches de frais
-                                </a>
-                            </li>
-                            
+
+                            <?php if (!$_SESSION['comptableBool']) { ?>
+
+                                <li <?php if ($uc == 'gererFrais') { ?>class="active" <?php } ?>>
+                                    <a href="index.php?uc=gererFrais&action=saisirFrais">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                        Renseigner la fiche de frais
+                                    </a>
+                                </li>
+                                <li <?php if ($uc == 'etatFrais') { ?>class="active" <?php } ?>>
+                                    <a href="index.php?uc=etatFrais&action=selectionnerMois">
+                                        <span class="glyphicon glyphicon-list-alt"></span>
+                                        Afficher mes fiches de frais
+                                    </a>
+                                </li>
+                            <?php } else { ?>
+
+                                <li <?php if ($uc == 'validerFrais') { ?>class="active" <?php } ?>>
+                                    <a href="index.php?uc=validerFrais&action=selectionnerVisiteurEtMois">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                        Valider les fiches de frais
+                                    </a>
+                                </li>
+                                <li <?php if ($uc == 'suivreFrais') { ?>class="active" <?php } ?>>
+                                    <a href="index.php?uc=suivreFrais&action=listeFiche">
+                                        <span class="glyphicon glyphicon-list-alt"></span>
+                                        Suivre le payement des fiches de frais
+                                    </a>
+                                </li>
+
                             <?php } ?>
-                            
-                            
-                            <li 
-                            <?php if ($uc == 'deconnexion') { ?>class="active"<?php } ?>>
+
+
+                            <li <?php if ($uc == 'deconnexion') { ?>class="active" <?php } ?>>
                                 <a href="index.php?uc=deconnexion&action=demandeDeconnexion">
                                     <span class="glyphicon glyphicon-log-out"></span>
                                     Déconnexion
@@ -93,14 +93,11 @@
                     </div>
                 </div>
             </div>
-            <?php
-            } else {
-                ?>   
-                <h1>
-                    <img src="./images/logo.jpg"
-                         class="img-responsive center-block"
-                         alt="Laboratoire Galaxy-Swiss Bourdin"
-                         title="Laboratoire Galaxy-Swiss Bourdin">
-                </h1>
-                <?php
-            }
+        <?php
+        } else {
+        ?>
+            <h1>
+                <img src="./images/logo.jpg" class="img-responsive center-block" alt="Laboratoire Galaxy-Swiss Bourdin" title="Laboratoire Galaxy-Swiss Bourdin">
+            </h1>
+        <?php
+        }

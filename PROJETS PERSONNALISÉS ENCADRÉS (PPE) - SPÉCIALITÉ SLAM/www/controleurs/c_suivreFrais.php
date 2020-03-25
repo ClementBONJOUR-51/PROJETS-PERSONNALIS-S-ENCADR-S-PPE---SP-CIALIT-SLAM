@@ -18,7 +18,7 @@ foreach ($lesVisiteurs as $leVisiteur){
             $totalForfait = 0;
             $totalHorsForfait = 0;
             //var_dump($infoForfait);
-            foreach ($infoForfait as $fraisForfait){ // je lie la quantité avec le montant pour les frais forfait
+            foreach ($infoForfait as $fraisForfait){ // je lie la quantitï¿½ avec le montant pour les frais forfait
                 foreach ($montantFrais as $unMontantFrais){
                     if($fraisForfait['idfrais']==$unMontantFrais['idfrais']){
                         $totalForfait = $totalForfait + ($fraisForfait['quantite']*$unMontantFrais['montantfrais']);
@@ -63,6 +63,3 @@ case 'changementEtat' :
     include 'vues/v_suivreFrais.php';
     break;
 }
-
-
-?>

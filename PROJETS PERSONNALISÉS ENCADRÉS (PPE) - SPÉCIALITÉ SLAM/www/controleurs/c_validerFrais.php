@@ -1,6 +1,6 @@
 <?php 
 /**
- * VALIDATION D’UNE FICHE DE FRAIS
+ * VALIDATION Dï¿½UNE FICHE DE FRAIS
  */
 
 
@@ -19,30 +19,30 @@ case 'selectionnerVisiteurEtMois':
     include 'vues/v_listeVisiteur.php';
     break;
 case 'resultatFicheFrais':
-    //récuperation des réponse formulaire
+    //rï¿½cuperation des rï¿½ponse formulaire
     $idVisiteurChoisi = filter_input(INPUT_POST, 'leVisiteur', FILTER_SANITIZE_STRING);
     $leMois = filter_input(INPUT_POST, 'leMois', FILTER_SANITIZE_STRING);
     
-    //récuperation des mois disponible celon le visiteur selectionné
+    //rï¿½cuperation des mois disponible celon le visiteur selectionnï¿½
     $lesMois = $pdo->getLesMoisDisponibles($idVisiteurChoisi);
-    $lesVisiteurs = $pdo->getVisiteurs(); // je recherche les visiteurs disponible pour les réafficher
+    $lesVisiteurs = $pdo->getVisiteurs(); // je recherche les visiteurs disponible pour les rï¿½afficher
     $leVisiteur = $pdo->getVisiteur($idVisiteurChoisi); // avec l'id du visiteur choisi, je le recherche dans la bdd
     
     //test erreur $leMois
     $listeMoisString = array();
     if(count($lesMois)<=0){
-        $leMois = null; // si aucun mois n'est disponible pour le visiteur, alors le mois récuperer est érroné et ne doit plus être celui qu'il est
+        $leMois = null; // si aucun mois n'est disponible pour le visiteur, alors le mois rï¿½cuperer est ï¿½rronï¿½ et ne doit plus ï¿½tre celui qu'il est
     } else{
-        // si le visiteur selectionné a au moins une fiche/ un mois
+        // si le visiteur selectionnï¿½ a au moins une fiche/ un mois
         foreach ($lesMois as $Mois){
             array_push($listeMoisString,$Mois['mois']); // construction d'un tableau 1D des mois 
         }
     }
     
     //correction $leMois
-    if(count($lesMois)> 0 && (!in_array($leMois,$listeMoisString) || $leMois==null)){ // si le mois returné par le formulaire n'est pas dans la liste ou bien est null
+    if(count($lesMois)> 0 && (!in_array($leMois,$listeMoisString) || $leMois==null)){ // si le mois returnï¿½ par le formulaire n'est pas dans la liste ou bien est null
         $lesCles = array_keys($lesMois);
-        $leMois = $lesMois[$lesCles[0]]['mois']; // alors je prend le premier mois de la liste du visiteur selectionné
+        $leMois = $lesMois[$lesCles[0]]['mois']; // alors je prend le premier mois de la liste du visiteur selectionnï¿½
     }
     
     $moisSelectionner = $leMois;
@@ -50,11 +50,11 @@ case 'resultatFicheFrais':
     include 'vues/v_listeVisiteur.php';
     
     //partie fiche Frais
-    //declaration variable à null
+    //declaration variable ï¿½ null
     $lesFraisHorsForfait = null;
     $lesFraisForfait = null;
     $lesInfosFicheFrais = null;
-    //Si il y a bien un mois selectionné
+    //Si il y a bien un mois selectionnï¿½
     if($moisSelectionner!=null){
     $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteurChoisi, $moisSelectionner);
     $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteurChoisi, $moisSelectionner);
@@ -79,14 +79,14 @@ case 'resultatFicheFrais':
 //     var_dump($lesFraisHorsForfait);
     break;
 case 'corrigerFraisForfait':
-    // récuperation de l'id,mois,frais du formulaire reçu
+    // rï¿½cuperation de l'id,mois,frais du formulaire reï¿½u
     $idVisiteurChoisi = filter_input(INPUT_POST, 'leVisiteur', FILTER_SANITIZE_STRING);
     $leMois = filter_input(INPUT_POST, 'leMois', FILTER_SANITIZE_STRING);
     $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
     
     if (lesQteFraisValides($lesFrais)) {
         $pdo->majFraisForfait($idVisiteurChoisi, $leMois, $lesFrais);
-        //réaffichage page defaut
+        //rï¿½affichage page defaut
         $lesVisiteurs = $pdo->getVisiteurs();
         $leVisiteur = $pdo->getVisiteur($idVisiteurChoisi);
         $lesMois = $pdo->getLesMoisDisponibles($idVisiteurChoisi);
@@ -94,18 +94,18 @@ case 'corrigerFraisForfait':
         //test erreur $leMois
         $listeMoisString = array();
         if(count($lesMois)<=0){
-            $leMois = null; // si aucun mois n'est disponible pour le visiteur, alors le mois récuperer est érroné et ne doit plus être celui qu'il est
+            $leMois = null; // si aucun mois n'est disponible pour le visiteur, alors le mois rï¿½cuperer est ï¿½rronï¿½ et ne doit plus ï¿½tre celui qu'il est
         } else{
-            // si le visiteur selectionné a au moins une fiche/ un mois
+            // si le visiteur selectionnï¿½ a au moins une fiche/ un mois
             foreach ($lesMois as $Mois){
                 array_push($listeMoisString,$Mois['mois']); // construction d'un tableau 1D des mois
             }
         }
         
         //correction $leMois
-        if(count($lesMois)> 0 && (!in_array($leMois,$listeMoisString) || $leMois==null)){ // si le mois returné par le formulaire n'est pas dans la liste ou bien est null
+        if(count($lesMois)> 0 && (!in_array($leMois,$listeMoisString) || $leMois==null)){ // si le mois returnï¿½ par le formulaire n'est pas dans la liste ou bien est null
             $lesCles = array_keys($lesMois);
-            $leMois = $lesMois[$lesCles[0]]['mois']; // alors je prend le premier mois de la liste du visiteur selectionné
+            $leMois = $lesMois[$lesCles[0]]['mois']; // alors je prend le premier mois de la liste du visiteur selectionnï¿½
         }
         
         $moisSelectionner = $leMois;
@@ -113,11 +113,11 @@ case 'corrigerFraisForfait':
         include 'vues/v_listeVisiteur.php';
         
         //partie fiche Frais
-        //declaration variable à null
+        //declaration variable ï¿½ null
         $lesFraisHorsForfait = null;
         $lesFraisForfait = null;
         $lesInfosFicheFrais = null;
-        //Si il y a bien un mois selectionné
+        //Si il y a bien un mois selectionnï¿½
         if($moisSelectionner!=null){
             $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteurChoisi, $moisSelectionner);
             $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteurChoisi, $moisSelectionner);
@@ -139,7 +139,7 @@ case 'corrigerFraisForfait':
     }
     break;
 case 'corrigerFraisHorsForfait':
-    //récuperation des réponses corrigées du formulaire
+    //rï¿½cuperation des rï¿½ponses corrigï¿½es du formulaire
     $idFraisHorsForfait = filter_input(INPUT_POST, 'idFraisHF', FILTER_SANITIZE_STRING);
     $dateFraisHorsForfait = filter_input(INPUT_POST, 'dateHF', FILTER_SANITIZE_STRING);
     $libFraisHorsForfait = filter_input(INPUT_POST, 'libHF', FILTER_SANITIZE_STRING);
@@ -186,7 +186,7 @@ case 'corrigerFraisHorsForfait':
 case 'validerFicheFrais' :
     $idVisiteurChoisi = filter_input(INPUT_POST, 'leVisiteur', FILTER_SANITIZE_STRING);
     $leMois = filter_input(INPUT_POST, 'leMois', FILTER_SANITIZE_STRING);
-    //passe la fiche à l'état validée
+    //passe la fiche ï¿½ l'ï¿½tat validï¿½e
     //maj date modification
     $pdo->majEtatFicheFrais($idVisiteurChoisi, $leMois, 'VA');
     
@@ -222,7 +222,7 @@ case 'reporterFraisHorsForfait' :
         $moisProchain = $mois + 1;
         $anneeProchaine = $annee;
     }
-    //remise en forme mois ou année
+    //remise en forme mois ou annï¿½e
     for($zeroDispaMois = 2 - strlen($moisProchain);$zeroDispaMois>0;$zeroDispaMois--)$moisProchain = "0" . $moisProchain;
     for($zeroDispaAnnee = 4 - strlen($anneeProchaine);$zeroDispaAnnee>0;$zeroDispaAnnee--)$anneeProchaine = "0" . $anneeProchaine;
     
@@ -234,11 +234,11 @@ case 'reporterFraisHorsForfait' :
     
     //si la fiche de mois n'existe pas
     if($ficheFraisProchaine == false){
-        $pdo->creeNouvellesLignesFrais($idVisiteurChoisi,$resultat); // je créé une fiche
+        $pdo->creeNouvellesLignesFrais($idVisiteurChoisi,$resultat); // je crï¿½ï¿½ une fiche
         $ficheFraisProchaine = $pdo->getLesInfosFicheFrais($idVisiteurChoisi,$resultat);
     }
     
-    //je récupère le info fraisHF
+    //je rï¿½cupï¿½re le info fraisHF
     $copie = null;
     foreach($pdo->getLesFraisHorsForfait($idVisiteurChoisi,$leMois) as $ligneFraisHF){
         if($ligneFraisHF['id']==$idFraisHorsForfait){
@@ -246,7 +246,7 @@ case 'reporterFraisHorsForfait' :
         }
     }
     
-    // je rajoute la ligne de fraisHorsForfait à cette fiche
+    // je rajoute la ligne de fraisHorsForfait ï¿½ cette fiche
     $pdo->creeNouveauFraisHorsForfait($idVisiteurChoisi,$resultat,$copie['libelle'],$copie['date'],$copie['montant']);
     
     // je supprime l'ancient frais HF
@@ -255,4 +255,3 @@ case 'reporterFraisHorsForfait' :
     
     break;
 }
-?>

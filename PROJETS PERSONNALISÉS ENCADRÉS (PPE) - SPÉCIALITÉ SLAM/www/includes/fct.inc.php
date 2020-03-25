@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Fonctions pour l'application GSB
  *
@@ -25,7 +26,7 @@ function estConnecte()
 }
 
 /**
- * Enregistre dans une variable session les infos d'un visiteur
+ * Enregistre dans une variable session les infos d'un utilisateur
  *
  * @param String $idUtilisateur ID de l'utilisateur
  * @param String $nom        Nom de l'utilisateur
