@@ -49,7 +49,7 @@ if ($lesFraisForfait != null && count($lesFraisForfait) > 0) {
                         <?php if (!$_SESSION['comptableBool']) { ?>
                             <button id="majFraisF" class="btn btn-success" type="submit" disabled>Mettre &agrave; jour</button>
                         <?php } else { ?>
-                            <button id="corrFraisF" class="btn btn-success" type="submit" disabled onclick="alert('Les informations de frais ont bien été corrigées');">Corriger</button>
+                            <button id="corrFraisF" class="btn btn-success" type="submit" onclick="alert('Les informations de frais ont bien été corrigées');">Corriger</button>
                         <?php } ?>
                         <button class="btn btn-danger" type="reset" onclick="alert('Actualisation des informations, les changements seront perdus');
                      document.getElementById('corrFraisF').disabled = true;
@@ -66,6 +66,5 @@ if ($lesFraisForfait != null && count($lesFraisForfait) > 0) {
 <script>
     function changeButton() {
         document.getElementById('majFraisF').disabled = false;
-        console.log('test');
     }
 </script>
